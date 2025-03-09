@@ -5,7 +5,7 @@ import { Card, CardContent } from "../components/Card";
 import { FaHeartbeat, FaCalendarCheck, FaChartLine } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-const Homepage = () => {
+const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Navbar */}
@@ -59,4 +59,4 @@ const FeatureCard = ({ icon, title, desc }) => {
   );
 };
 
-export default Homepage;
+export default Home;

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";  // ✅ Ensure Sidebar.js exists in /components
-import Homepage from "./pages/Home";       // ✅ Ensure Home.js exists in /pages
+import Sidebar from "./components/Sidebar";
+import Homepage from "./pages/Home";       
 import Dashboard from "./pages/Dashboard";
-import Appointments from "./pages/Appointments"; // ✅ Ensure Appointments.js exists
+import Appointments from "./pages/Appointments";
 import SymptomChecker from "./pages/SymptomChecker";
 
 
@@ -16,7 +16,7 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/symptom-checker" element={<SymptomChecker />} />
-            <Route path="/doctor-connect" element={<Appointments />} /> {/* ✅ Fixed */}
+            <Route path="/doctor-connect" element={<Appointments />} /> 
           </Routes>
         </div>
       </div>
