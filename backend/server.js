@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+ // ✅ Handles URL-encoded data
 
 // Import Routes (Fix imports)
 import sensorRoutes from "./routes/sensorRoutes.js";
@@ -14,7 +15,7 @@ const app = express(); // Initialize Express app
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/sensors", sensorRoutes);
 app.use("/api/appointments", appointmentRoutes);
@@ -24,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 app.use(
   cors({
-    origin: "http://localhost:3001", // ✅ Allow frontend URL
+    origin: "http://localhost:5173", // ✅ Allow frontend URL
     credentials: true, // ✅ Required for cookies & authentication
   })
 );

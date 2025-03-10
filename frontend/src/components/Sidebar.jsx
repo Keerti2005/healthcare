@@ -6,6 +6,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
+    
     <aside className={`flex flex-col h-screen px-4 py-8 bg-white border-r dark:bg-gray-900 dark:border-gray-700 transition-all ${isOpen ? "w-64" : "w-20"}`}>
       {/* Toggle Button */}
       <button
