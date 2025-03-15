@@ -1,7 +1,24 @@
 import express from "express";
 import SensorData from "../models/SensorData.js";
-
+import { PythonShell } from 'python-shell';
 const router = express.Router();
+
+router.post('/predict', (req, res) => {
+  const symptoms = req.body;
+  const symptomsJson = JSON.stringify(symptoms);
+
+  PythonShell.run('predict.py', {
+    args: [symptomsJson]  // Make sure the path to predict.py is correct
+  }, (err, result) => {
+    if (err) {
+      console.error(err);  // Check the error if there is one
+      return res.status(500).json({ error: 'Error running Python script' });
+    }
+    // Return the prediction result
+    return res.json({ prediction: result[0] });
+  });
+});
+
 
 // Store Multiple Sensor Data Entries
 router.post("/add", async (req, res) => {
