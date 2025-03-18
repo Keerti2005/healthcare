@@ -191,14 +191,14 @@ const HeartRateChart = () => {
           <HeartIcon className="h-6 w-6" />
         </div>
         <div>
-          <h1 className="text-white text-2xl font-bold">Vital Checking Dashboard</h1>
-          <p className="text-gray-400 text-sm">Monitor real-time data fluctuations.</p>
+          <h1 className="text-white text-3xl font-bold">Vital Checking Dashboard</h1>
+          <p className="text-gray-400 text-md mb-4">Monitor real-time data fluctuations.</p>
         </div>
       </div>
 
       {/* Latest Sensor Readings */}
-      <h2 className="text-white text-lg font-semibold w-full flex mb-4">Current Readings</h2>
-      <div className="w-full flex justify-center mb-4">
+      <h2 className="text-white text-2xl font-semibold w-full flex mb-4">Current Readings</h2>
+      <div className="w-full flex justify-center mb-4 text-xl">
         <div className="grid grid-cols-5 gap-6 w-full">
           {latestData ? (
             <>

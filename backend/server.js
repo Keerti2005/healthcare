@@ -22,24 +22,30 @@ app.use("/api/sensors", sensorRoutes);
 app.use("/api/appointments", appointmentRoutes);
 
 // Prediction Route (NEW)
-app.post("/api/predict", (req, res) => {
-  // Extract symptom data from the request body
-  const symptoms = req.body;
+app.post('/predict', (req, res) => {
+  const symptomData = req.body; // Get symptom data from the request body
 
-  // Convert the symptoms object to a JSON string for Python
-  const symptomsJson = JSON.stringify(symptoms);
+  // Convert the symptom data to JSON string
+  const symptomsJson = JSON.stringify(symptomData);
 
-  // Run the Python script to get the prediction
-  PythonShell.run("predict.py", { args: [symptomsJson] }, (err, result) => {
+  // Options for PythonShell
+  let options = {
+    pythonPath: 'python', // Ensure this points to your Python executable
+    args: [symptomsJson]  // Pass the JSON data as an argument to the Python script
+  };
+
+  // Run the Python script
+  PythonShell.run('C:/Users/ashok/OneDrive/Documents/healthcare/backend/predict.py', options, function (err, result) {
     if (err) {
-      console.error("Error running prediction script:", err);
-      return res.status(500).send("Error predicting condition.");
+      console.error('Error:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Return the prediction result to the frontend
+      res.json({ prediction: result[0] });  // result[0] contains the prediction result
     }
-
-    // Return the prediction result
-    return res.json({ prediction: result[0] });
   });
 });
+
 
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;

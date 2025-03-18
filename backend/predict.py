@@ -7,11 +7,11 @@ import os
 # Debug: Confirm script is running
 print("Python script is running!")
 
-# Print the current working directory
+# Print the current working directory for debugging purposes
 print("Current working directory:", os.getcwd())
 
 # Absolute path for the model
-model_path = 'C:/Users/ashok/OneDrive/Documents/healthcare/backend/sss.pkl'
+model_path = r"C:\Users\ashok\OneDrive\Documents\healthcare\backend\mm.pkl"
 
 # Ensure the model file exists
 if not os.path.exists(model_path):
@@ -28,21 +28,23 @@ except Exception as e:
     print(f"Error loading model: {e}")
     sys.exit(1)
 
-# Get the symptom data passed from Node.js
+# Check if the script has been passed the necessary argument
 if len(sys.argv) < 2:
     print("Error: No symptom data provided.")
     sys.exit(1)
 
+# Get the symptom data from the argument
 symptoms_json = sys.argv[1]
 print("Received JSON data:", symptoms_json)
 
+# Parse the symptom data
 try:
     symptoms = json.loads(symptoms_json)
 except json.JSONDecodeError as e:
     print(f"JSONDecodeError: {e}")
     sys.exit(1)
 
-# Extract the feature values
+# Extract the feature values (assuming the input is a dictionary of symptoms)
 feature_values = list(symptoms.values())
 print("Feature values:", feature_values)
 
@@ -55,3 +57,6 @@ try:
 except Exception as e:
     print(f"Error during prediction: {e}")
     sys.exit(1)
+
+# Return the prediction result (for debugging purposes, you can print it)
+print("Prediction:", prediction[0])

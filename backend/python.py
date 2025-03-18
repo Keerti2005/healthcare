@@ -2,6 +2,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
+import joblib
+import os
+
+# Ensure the 'backend' directory exists
+os.makedirs('backend', exist_ok=True)
 
 # Expanded dataset with more conditions and symptoms
 data = {
@@ -39,5 +44,4 @@ y_pred = model.predict(X_test)
 print(classification_report(y_test, y_pred))
 
 # Save the trained model
-import joblib
-joblib.dump(model, 'backend/sss.pkl')
+joblib.dump(model, r'C:\Users\ashok\OneDrive\Documents\healthcare\backend\mm.pkl')
