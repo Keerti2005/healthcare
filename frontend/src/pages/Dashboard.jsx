@@ -256,7 +256,7 @@ const HeartRateChart = () => {
       <MapComponent />
       <footer className="bg-black text-white rounded-lg shadow-lg p-4 border-t border-gray-800">
         <div className="w-full mx-auto max-w-screen-xl flex flex-col md:flex-row md:justify-between">
-          <span className="text-sm">© 2023 MedTrack. All Rights Reserved.</span>
+          <span className="text-sm">© 2025 MedTrack. All Rights Reserved.</span>
           <ul className="flex flex-wrap items-center mt-3 text-sm md:mt-0">
             <li><a href="#" className="hover:underline me-4">About</a></li>
             <li><a href="#" className="hover:underline me-4">Privacy Policy</a></li>

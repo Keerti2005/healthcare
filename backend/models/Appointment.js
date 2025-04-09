@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 
-const AppointmentSchema = new mongoose.Schema({
-  patientName: String,
-  doctorName: String,
+const appointmentSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: String,
+  age: Number,
+  gender: String,
+  issue: String,
+  doctor: String,
   date: String,
   time: String,
 });
 
-const Appointment = mongoose.model("Appointment", AppointmentSchema);
-export default Appointment;
+export default mongoose.model("Appointment", appointmentSchema);
+

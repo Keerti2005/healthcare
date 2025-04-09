@@ -11,7 +11,7 @@ print("Python script is running!")
 print("Current working directory:", os.getcwd())
 
 # Absolute path for the model
-model_path = r"C:\Users\ashok\OneDrive\Documents\healthcare\backend\mm.pkl"
+model_path = "C:/Users/ashok/OneDrive/Documents/healthcare/backend/mm.pkl"
 
 # Ensure the model file exists
 if not os.path.exists(model_path):
