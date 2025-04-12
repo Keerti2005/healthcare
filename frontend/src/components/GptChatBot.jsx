@@ -62,6 +62,7 @@ const HuggingChatbot = ({ fullPage = false }) => {
     setLoading(false);
   };
 
+  // Floating button for compact version
   if (!fullPage) {
     return (
       <div className="fixed bottom-4 right-4 z-50">
@@ -80,14 +81,19 @@ const HuggingChatbot = ({ fullPage = false }) => {
     );
   }
 
+  // Full page version
   return (
-    <div className="relative w-full min-h-screen flex items-center justify-center bg-black overflow-hidden text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0 animate-pulse" />
-      <div className="relative z-10 w-full max-w-3xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] border border-blue-700 rounded-2xl shadow-2xl p-6">
-        <h1 className="text-center text-2xl md:text-3xl font-bold mb-6 text-blue-400 animate-bounce">
+    <div className="w-screen h-screen flex flex-col items-center justify-between bg-black text-white relative overflow-hidden">
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-10 animate-pulse z-0" />
+
+      {/* Chat container */}
+      <div className="relative z-10 flex flex-col w-full max-w-4xl h-full p-6">
+        <h1 className="text-center text-2xl md:text-3xl font-bold text-blue-400 animate-bounce mb-4">
           Ask Me Anything 🩺✨
         </h1>
-        <div className="flex-1 h-[400px] overflow-y-auto space-y-2 mb-4 scrollbar-thin scrollbar-thumb-blue-700 pr-2">
+
+        <div className="flex-1 overflow-y-auto bg-gray-900 rounded-xl p-4 space-y-2 scrollbar-thin scrollbar-thumb-blue-700">
           {messages.map((msg, i) => (
             <div
               key={i}
@@ -100,18 +106,21 @@ const HuggingChatbot = ({ fullPage = false }) => {
               {msg.content}
             </div>
           ))}
-          {loading && <div className="text-gray-400 text-sm">Typing...</div>}
+          {loading && (
+            <div className="text-gray-400 text-sm italic">Typing...</div>
+          )}
         </div>
-        <div className="flex">
+
+        <div className="flex mt-4">
           <input
-            className="flex-1 bg-gray-900 border border-gray-700 rounded-lg py-2 px-4 text-white"
+            className="flex-1 bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-white"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder="Ask me anything..."
           />
           <button
-            className="ml-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
+            className="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
             onClick={sendMessage}
           >
             Send
