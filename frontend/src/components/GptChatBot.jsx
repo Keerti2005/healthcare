@@ -24,7 +24,7 @@ const HuggingChatbot = ({ fullPage = false }) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer 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`, // Use the correct API Key
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -33,21 +33,16 @@ const HuggingChatbot = ({ fullPage = false }) => {
         }
       );
 
-      // Check for HTTP errors
       if (!res.ok) {
         throw new Error(`HTTP Error: ${res.status} ${res.statusText}`);
       }
 
       const data = await res.json();
 
-      console.log("API Response:", data); // Log the API response for debugging
-
-      // Handle potential Hugging Face API errors
       if (data?.error) {
         throw new Error(`Hugging Face Error: ${data.error}`);
       }
 
-      // Extract the assistant's response
       responseContent =
         data?.[0]?.generated_text?.replace(
           `Instruction: You are a helpful assistant. User: ${input}\nAssistant:`,
@@ -55,10 +50,9 @@ const HuggingChatbot = ({ fullPage = false }) => {
         )?.trim() || "Sorry, I didn’t understand that.";
     } catch (error) {
       alert(`Something went wrong: ${error.message}`);
-      console.error("Error during API request:", error); // Log detailed error
+      console.error("Error during API request:", error);
     }
 
-    // Add the assistant's response to the messages
     const botMessage = {
       role: "assistant",
       content: responseContent,
@@ -68,7 +62,6 @@ const HuggingChatbot = ({ fullPage = false }) => {
     setLoading(false);
   };
 
-  // Floating Button for small screen
   if (!fullPage) {
     return (
       <div className="fixed bottom-4 right-4 z-50">
@@ -87,19 +80,13 @@ const HuggingChatbot = ({ fullPage = false }) => {
     );
   }
 
-  // Full Page Chatbot
   return (
     <div className="relative w-full min-h-screen flex items-center justify-center bg-black overflow-hidden text-white">
-      {/* 🌟 Background */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e3a8a_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0 animate-pulse" />
-
       <div className="relative z-10 w-full max-w-3xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] border border-blue-700 rounded-2xl shadow-2xl p-6">
-        {/* Heading */}
         <h1 className="text-center text-2xl md:text-3xl font-bold mb-6 text-blue-400 animate-bounce">
           Ask Me Anything 🩺✨
         </h1>
-
-        {/* Messages */}
         <div className="flex-1 h-[400px] overflow-y-auto space-y-2 mb-4 scrollbar-thin scrollbar-thumb-blue-700 pr-2">
           {messages.map((msg, i) => (
             <div
@@ -115,8 +102,6 @@ const HuggingChatbot = ({ fullPage = false }) => {
           ))}
           {loading && <div className="text-gray-400 text-sm">Typing...</div>}
         </div>
-
-        {/* Input Box */}
         <div className="flex">
           <input
             className="flex-1 bg-gray-900 border border-gray-700 rounded-lg py-2 px-4 text-white"
