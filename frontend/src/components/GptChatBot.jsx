@@ -2,16 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRobot } from "react-icons/fa";
 
-const HuggingChatbot = ({
-  fullPage = false,
-  vitals = {
-    heartRate: 80,
-    temperature: 36.6,
-    spo2: 98,
-    bloodPressure: "120/80",
-    ecgStatus: "Normal",
-  },
-}) => {
+const HuggingChatbot = ({ fullPage = false }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,7 +16,7 @@ const HuggingChatbot = ({
     setInput("");
     setLoading(true);
 
-    const vitalSummary = `Current patient vitals: Heart Rate = ${vitals.heartRate} bpm, Temperature = ${vitals.temperature}°C, SpO₂ = ${vitals.spo2}%, Blood Pressure = ${vitals.bloodPressure}, ECG = ${vitals.ecgStatus}.`;
+    let responseContent = "Hello! How can I assist you today?";
 
     try {
       const res = await fetch(
@@ -33,41 +24,51 @@ const HuggingChatbot = ({
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer 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",
+            Authorization: `Bearer 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`, // Use the correct API Key
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            inputs: `Instruction: You are a helpful medical assistant. ${vitalSummary} Based on this, respond to the user query.\nUser: ${input}\nAssistant:`,
+            inputs: `Instruction: You are a helpful assistant. User: ${input}\nAssistant:`,
           }),
         }
       );
 
+      // Check for HTTP errors
+      if (!res.ok) {
+        throw new Error(`HTTP Error: ${res.status} ${res.statusText}`);
+      }
+
       const data = await res.json();
 
-      if (data.error) {
-        alert("Hugging Face Error: " + data.error);
-      } else {
-        const botMessage = {
-          role: "assistant",
-          content:
-            data[0]?.generated_text
-              ?.replace(
-                `Instruction: You are a helpful medical assistant. ${vitalSummary} Based on this, respond to the user query.\nUser: ${input}\nAssistant:`,
-                ""
-              )
-              ?.trim() || "Sorry, I didn’t understand that.",
-        };
-        setMessages((prev) => [...prev, botMessage]);
+      console.log("API Response:", data); // Log the API response for debugging
+
+      // Handle potential Hugging Face API errors
+      if (data?.error) {
+        throw new Error(`Hugging Face Error: ${data.error}`);
       }
+
+      // Extract the assistant's response
+      responseContent =
+        data?.[0]?.generated_text?.replace(
+          `Instruction: You are a helpful assistant. User: ${input}\nAssistant:`,
+          ""
+        )?.trim() || "Sorry, I didn’t understand that.";
     } catch (error) {
-      alert("Something went wrong.");
-      console.error(error);
-    } finally {
-      setLoading(false);
+      alert(`Something went wrong: ${error.message}`);
+      console.error("Error during API request:", error); // Log detailed error
     }
+
+    // Add the assistant's response to the messages
+    const botMessage = {
+      role: "assistant",
+      content: responseContent,
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
+    setLoading(false);
   };
 
-  // Floating Button
+  // Floating Button for small screen
   if (!fullPage) {
     return (
       <div className="fixed bottom-4 right-4 z-50">
@@ -118,18 +119,15 @@ const HuggingChatbot = ({
         {/* Input Box */}
         <div className="flex">
           <input
-            className="flex-1 bg-gray-900 border border-blue-700 text-white px-4 py-2 rounded-l-full placeholder-gray-400 focus:outline-none"
+            className="flex-1 bg-gray-900 border border-gray-700 rounded-lg py-2 px-4 text-white"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder="Ask me anything..."
-            onKeyDown={(e) => {
-              if (e.key === "Enter") sendMessage();
-            }}
           />
           <button
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-full font-semibold transition"
+            className="ml-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
             onClick={sendMessage}
-            disabled={loading}
           >
             Send
           </button>
